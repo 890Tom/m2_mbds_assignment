@@ -1,9 +1,10 @@
 import { Routes } from '@angular/router';
 import { AssignmentsComponent } from './assignments/assignments.component';
 import { SigninComponent } from './signin/signin.component';
+import { authGuard } from './shared/auth.guard';
 
 export const routes: Routes = [
-    {path: '', component: AssignmentsComponent},
+    {path: '', component: AssignmentsComponent, canActivate: [authGuard]},
     {path: 'signin', component: SigninComponent}
 ];
     
