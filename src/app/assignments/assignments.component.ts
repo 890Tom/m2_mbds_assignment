@@ -3,12 +3,14 @@ import { RouterLink } from '@angular/router';
 import { AuthService } from '../shared/service/auth.service';
 import { Assignment } from '../shared/interface/assignment.interface';
 import { AssignmentService } from '../shared/service/assignment.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-assignments',
   standalone: true,
   imports: [
-    RouterLink
+    RouterLink,
+    FormsModule,
   ],
   templateUrl: './assignments.component.html',
   styleUrl: './assignments.component.css'
@@ -52,6 +54,27 @@ export class AssignmentsComponent implements OnInit {
       this.hasNextPage = data.hasNextPage;
       this.hasPrevPage = data.hasPrevPage;
     });
+  }
+
+  // pour la pagination
+  pagePrecedente(){
+    this.page = this.prevPage;
+    this.getAssignmentsFromService();
+  }
+
+  pageSuivante(){
+    this.page = this.nextPage;
+    this.getAssignmentsFromService();
+  }
+
+  premierePage(){
+    this.page = 1;
+    this.getAssignmentsFromService();
+  }
+
+  dernierePage(){
+    this.page = this.totalPages;
+    this.getAssignmentsFromService();
   }
 
   signOut() {
