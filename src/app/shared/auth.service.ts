@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environment';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { JwtPayload, jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -43,11 +44,30 @@ export class AuthService {
   }
 
   isAdmin() {
-    
+    const promesse = new Promise<boolean>((resolve, reject) => {
+      // decode le token en cours
+      const decodedToken = this.decodeToken();
+      if(decodedToken){
+        // vérifie si l'utilisateur est admin
+        resolve(decodedToken.role === 'administrateur'? true : false);
+      }else{
+        resolve(false);
+      }
+    });
+    return promesse;
   }
 
   getToken(){
     return localStorage.getItem('token');
+  }
+
+  decodeToken(): any {
+    const token = this.getToken();
+    if(token){
+      const decodedToken = jwtDecode(token);
+      return decodedToken;
+    }
+    return null;
   }
 
   onTokenError(responseError: any){
