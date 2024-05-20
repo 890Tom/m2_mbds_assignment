@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from '../../../environment';
+import { environment } from '../../../../environment';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { JwtPayload, jwtDecode } from 'jwt-decode';
@@ -32,6 +32,7 @@ export class AuthService {
   logOut() {
     // supprime le token du localstorage
     localStorage.removeItem('token');
+    this.router.navigate(['/signin']);
   }
 
   isLoggedIn() {

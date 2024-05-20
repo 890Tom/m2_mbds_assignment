@@ -1,6 +1,6 @@
 import { HttpInterceptorFn, HttpHeaders } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { AuthService } from './auth.service';
+import { AuthService } from './service/auth.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
@@ -17,6 +17,8 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authReq = req.clone({
     setHeaders: header
   })
+
+  
   
   return next(authReq);
 };

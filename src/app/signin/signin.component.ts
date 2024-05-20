@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../shared/auth.service';
+import { AuthService } from '../shared/service/auth.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -15,8 +15,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 })
 export class SigninComponent {
   // Champs des formulaires d'authentification
-  email: string = ''
-  password: string = ''
+  email: string = 'cooleyjames@example.org'
+  password: string = 'Tn_rnb!='
 
   constructor(
     private router: Router,
