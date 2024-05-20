@@ -19,4 +19,11 @@ export class AssignmentService {
   getAssignments(page: number, limit: number):Observable<any> {
     return this.http.get<Assignment[]>(this.endPoint + "?page=" + page + "&limit=" + limit);
   }
+
+  deleteAssignment(assignment: Assignment): Observable<any>{
+    const body = JSON.stringify({
+      "id" : assignment._id
+    })
+    return this.http.delete(this.endPoint + '/delete',{body: body})
+  }
 }
