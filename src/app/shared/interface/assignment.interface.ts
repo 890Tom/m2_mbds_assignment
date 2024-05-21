@@ -10,6 +10,7 @@ export class Matiere{
     nom!: string;
     coefficient!: number;
     professeur!: Person;
+    image!: string;
 }
 
 export class Assignment{

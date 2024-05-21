@@ -77,7 +77,27 @@ export class AssignmentsComponent implements OnInit {
     this.getAssignmentsFromService();
   }
 
+  // supprimer un assignment et re afficher la liste
+  onDelete(assignment: Assignment){
+    // on va directement utiliser le service
+    this.assignmentService.deleteAssignment(assignment)
+    .subscribe( 
+       message => {
+        console.log(message);
+
+        // actualiser la liste des assignments
+        this.getAssignmentsFromService();
+       }
+    )
+  }
+
   signOut() {
     this.authService.logOut();
+  }
+
+  isAdmin(){
+    // return this.authService.isAdmin().then(isAdmin=>{
+    //   return isAdmin
+    // });
   }
 }
