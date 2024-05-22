@@ -17,6 +17,7 @@ export class Assignment{
     _id?: string;
     nom!: string;
     dateRendu!: Date;
+    note!: number;
     rendu!: boolean;
     remarque!: string;
     etudiant!: Person;

@@ -4,13 +4,16 @@ import { RouterModule } from '@angular/router';
 import { Assignment } from '../../shared/interface/assignment.interface';
 import { AuthService } from '../../shared/service/auth.service';
 import { AssignmentService } from '../../shared/service/assignment.service';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faCoffee, faEdit, faDeleteLeft } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-list-assignment',
   standalone: true,
   imports: [
     RouterModule,
-    FormsModule
+    FormsModule,
+    FontAwesomeModule
   ],
   templateUrl: './list-assignment.component.html',
   styleUrl: './list-assignment.component.css'
@@ -20,7 +23,7 @@ export class ListAssignmentComponent implements OnInit {
 
   // pour la pagination
   page = 1;
-  limit = 4;
+  limit = 20;
   totalDocs!: number;
   totalPages!: number;
   nextPage!: number;
@@ -30,6 +33,9 @@ export class ListAssignmentComponent implements OnInit {
 
   // liste des assignments
   assignments: Assignment[] = [];
+
+  faDelete = faDeleteLeft
+  faEdit = faEdit;
 
   constructor(
     private authService: AuthService,

@@ -1,77 +1,103 @@
 @if (assignment) {
 <div class="p-6">
-  <div
-    class="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5"
-  >
-    <div class="flex justify-between mb-6">
-      <!-- Information sur l'eleve et assignment -->
-      <div class="flex items-center mb-1">
-        <div class="flex-shrink-0 w-10 h-10 relative">
-          <div class="p-1 bg-white rounded-full focus:outline-none focus:ring">
-            <!-- <img class="w-8 h-8 rounded-full" src="https://laravelui.spruko.com/tailwind/ynex/build/assets/images/faces/9.jpg" alt=""/> -->
-            <img
-              class="w-8 h-8 rounded-full"
-              [src]="assignment.etudiant.avatar"
-              alt=""
-            />
-          </div>
-        </div>
-        <div class="p-2 md:block text-left">
-          <h2 class="text-sm font-semibold text-gray-800">
-            {{ assignment.nom }}
-          </h2>
-          <p class="text-xs text-gray-500">{{ assignment.dateRendu }}</p>
-        </div>
-      </div>
-
-      <!-- Information sur le prof -->
-      <div class="flex items-center mb-1">
-        <div class="flex-shrink-0 w-10 h-10 relative">
-          <div class="p-1 bg-white rounded-full focus:outline-none focus:ring">
-            <img
-              class="w-8 h-8 rounded-full"
-              [src]="assignment.matiere.professeur.avatar"
-              alt=""
-            />
-          </div>
-        </div>
-        <div class="p-2 md:block text-left">
-          <h2 class="text-sm font-semibold text-gray-800">
-            {{ assignment.matiere.professeur.nom }}
-          </h2>
-        </div>
+  <div class="bg-white rounded-lg shadow-md p-4">
+    <div class="flex items-center justify-between">
+      <h5 class="text-gray-900 font-bold">Assignment : {{ assignment.nom }}</h5>
+      <div class="flex items-center">
+        <img
+          src="https://i.pravatar.cc/150"
+          alt="Icône matière"
+          class="w-10 h-10 mr-2 rounded-full"
+        />
+        <p class="text-gray-700">{{ assignment.matiere.professeur.nom }}</p>
       </div>
     </div>
-    <!-- Information sur la matiere -->
-    <div class="flex items-center mb-1">
-      <div class="flex-shrink-0 w-10 h-10 relative">
-        <div class="p-1 bg-white rounded-full focus:outline-none focus:ring">
-          <img
-            class="w-8 h-8 rounded-full"
-            [src]="assignment.matiere.image"
-            alt=""
+    <div class="p-4">
+      <div class="flex flex-wrap -mx-3 mb-6">
+        <div class="w-full px-3">
+          <label
+            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+            for="due-date"
+          >
+            Due date
+          </label>
+          <input
+            disabled
+            id="due-date"
+            type="text"
+            [value]="assignment.dateRendu"
+            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           />
         </div>
       </div>
-      <div class="p-2 md:block text-left">
-        <h2 class="text-sm font-semibold text-gray-800">
-          {{ assignment.matiere.nom }}
-        </h2>
+      <div class="flex flex-wrap -mx-3 mb-6">
+        <div class="w-full px-3">
+          <label
+            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+            for="due-date"
+          >
+            Student
+          </label>
+          <input
+            disabled
+            id="due-date"
+            type="text"
+            [value]="assignment.etudiant.nom"
+            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          />
+        </div>
       </div>
-    </div>
-    <div class="flex justify-between p-2 mt-4">
-      <button
-        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        <fa-icon [icon]="faEdit"></fa-icon>
-        Edit
-      </button>
-      <button
-        class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-      >
-        <fa-icon [icon]="faDelete"></fa-icon>
-        Delete
-      </button>
+      <div class="flex flex-wrap -mx-3 mb-6">
+        <div class="w-full px-3">
+          <label
+            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+            for="grid-password"
+          >
+            Mark
+          </label>
+          <input
+            disabled
+            type="number"
+            [value]="assignment.note"
+            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          />
+        </div>
+      </div>
+      <div class="flex flex-wrap -mx-3 mb-6">
+        <div class="w-full px-3">
+          <label
+            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+            for="grid-password"
+          >
+            Remarque
+          </label>
+          <textarea
+            disabled
+            id="description"
+            name="description"
+            rows="5"
+            class="shadow-sm focus:ring-indigo-500 bg-gray-200 focus:border-indigo-500 rounded-lg block w-full sm:text-sm border text-gray-700 border-gray-300 p-2.5"
+          >
+            {{ assignment.remarque }}
+          </textarea>
+        </div>
+      </div>
+      <div class="flex justify-between p-2 mt-4">
+        <button
+          [disabled]="canEdit"
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          <fa-icon [icon]="faEdit"></fa-icon>
+          Edit
+        </button>
+        <button
+          (click)="onDelete(assignment)"
+          class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+        >
+          <fa-icon [icon]="faDelete"></fa-icon>
+          Delete
+        </button>
+      </div>
     </div>
   </div>
 </div>

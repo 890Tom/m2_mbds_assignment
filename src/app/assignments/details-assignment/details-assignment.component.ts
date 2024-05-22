@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AssignmentService } from '../../shared/service/assignment.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Assignment } from '../../shared/interface/assignment.interface';
 import { Observable } from 'rxjs';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCoffee, faEdit, faDeleteLeft } from '@fortawesome/free-solid-svg-icons';
+import { AuthService } from '../../shared/service/auth.service';
 
 @Component({
   selector: 'app-details-assignment',
@@ -18,15 +19,32 @@ export class DetailsAssignmentComponent implements OnInit {
   faCoffee = faCoffee;
   faDelete = faDeleteLeft
   faEdit = faEdit;
+  canEdit = true;
+  isAdmin!: boolean ;
 
   constructor(
-    private assignmentService: AssignmentService,
-    private route : ActivatedRoute
+    private authentificationService : AuthService,
+    private assignmentService:  AssignmentService,
+    private route : ActivatedRoute,
+    private router : Router
   ) { }
+  
   ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap;
     const assignmentId = routeParams.get('assignment_id') as string;
 
     this.assignmentService.getAssignmentById(assignmentId).subscribe(assignment => {  this.assignment = assignment; });
+    this.authentificationService.isAdmin().then(role => { this.isAdmin = role ; })
+
+    this.canEdit = this.isAdmin && !this.assignment?.rendu;
+  }
+
+  onDelete(assignment: Assignment){
+    this.assignmentService.deleteAssignment(assignment)
+    .subscribe( 
+       message => {
+        this.router.navigate(['/assignment/list']);
+       }
+    )
   }
 }
