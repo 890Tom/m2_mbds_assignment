@@ -1,27 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink, RouterModule } from '@angular/router';
-import { AuthService } from '../shared/service/auth.service';
-import { Assignment } from '../shared/interface/assignment.interface';
-import { AssignmentService } from '../shared/service/assignment.service';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { Assignment } from '../../shared/interface/assignment.interface';
+import { AuthService } from '../../shared/service/auth.service';
+import { AssignmentService } from '../../shared/service/assignment.service';
 
 @Component({
-  selector: 'app-assignments',
+  selector: 'app-list-assignment',
   standalone: true,
   imports: [
-    RouterLink,
     RouterModule,
-    FormsModule,
+    FormsModule
   ],
-  templateUrl: './assignments.component.html',
-  styleUrl: './assignments.component.css'
+  templateUrl: './list-assignment.component.html',
+  styleUrl: './list-assignment.component.css'
 })
-export class AssignmentsComponent implements OnInit {
+export class ListAssignmentComponent implements OnInit {
   titre = 'Liste des assignments';
 
   // pour la pagination
   page = 1;
-  limit = 10;
+  limit = 4;
   totalDocs!: number;
   totalPages!: number;
   nextPage!: number;
@@ -94,11 +93,5 @@ export class AssignmentsComponent implements OnInit {
 
   signOut() {
     this.authService.logOut();
-  }
-
-  isAdmin(){
-    // return this.authService.isAdmin().then(isAdmin=>{
-    //   return isAdmin
-    // });
   }
 }

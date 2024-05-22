@@ -26,4 +26,8 @@ export class AssignmentService {
     })
     return this.http.delete(this.endPoint + '/delete',{body: body})
   }
+
+  getAssignmentById(id: string): Observable<any>{
+    return this.http.get<Assignment>(this.endPoint + '/' + id)
+  }
 }

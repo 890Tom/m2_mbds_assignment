@@ -3,9 +3,28 @@ import { AssignmentsComponent } from './assignments/assignments.component';
 import { SigninComponent } from './signin/signin.component';
 import { authGuard } from './shared/guard/auth.guard';
 import {AddAssignmentComponent} from './assignments/add-assignment/add-assignment.component';
+import { DetailsAssignmentComponent } from './assignments/details-assignment/details-assignment.component';
+import { ListAssignmentComponent } from './assignments/list-assignment/list-assignment.component';
+
 export const routes: Routes = [
-    {path: '', component: AssignmentsComponent, canActivate: [authGuard]},
+    {
+        path: 'assignment', component: AssignmentsComponent, 
+        canActivate: [authGuard],
+        children: [
+            {
+                path:'list',
+                component: ListAssignmentComponent
+            },
+            {
+                path: 'details/:assignment_id', 
+                component: DetailsAssignmentComponent 
+            },
+            {
+                path: 'add', 
+                component: AddAssignmentComponent
+            }
+        ]},
     {path: 'signin', component: SigninComponent},
-    {path: 'add-assignment', component: AddAssignmentComponent}
+    { path: '',   redirectTo: 'assignment/list', pathMatch: 'full' }
 ];
     

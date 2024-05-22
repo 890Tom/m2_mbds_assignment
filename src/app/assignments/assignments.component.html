@@ -7,7 +7,7 @@
     <ul class="mt-4">
         <span class="text-gray-400 font-bold">ASSIGNMENT</span>
         <li class="mb-1 group">
-            <a href="" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+            <a routerLink="list" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                 <i class="ri-home-2-line mr-3 text-lg"></i>
                 <span class="text-sm">Liste des assignments</span>
             </a>
@@ -45,100 +45,10 @@
         </ul>
     </div>
     
-  <!-- Content -->
-    <div class="p-6">
-        <div class="grid grid-cols-1 gap-6">
-            <div class="p-6 relative flex flex-col min-w-0 mb-4 lg:mb-0 break-words bg-gray-50 dark:bg-gray-800 w-full shadow-lg rounded">
-                <div class="rounded-t mb-0 px-0 border-0">
-                  
-                  <div class="block w-full overflow-x-auto">
-                    
-                    
-                    <nav class="mb-4 flex justify-center space-x-4" aria-label="Pagination">
-                      <input type="range" min="0" max="100" [(ngModel)]="limit" (change)="getAssignmentsFromService()" class="range" />
-                      <button [disabled]="!hasPrevPage" (click)="pagePrecedente()" class="rounded-lg border border-teal-500 px-2 py-2 text-gray-700">
-                          <span class="sr-only">Previous</span>
-                          <svg class="mt-1 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                              aria-hidden="true">
-                              <path fill-rule="evenodd"
-                                  d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                                  clip-rule="evenodd">
-                              </path>
-                          </svg>
-                        </button>
-                  
-                      <button [disabled]="!hasPrevPage" (click)="premierePage()" class="rounded-lg border border-teal-500 bg-teal-500 px-4 py-2 text-white">Premier</button>
-                      <button [disabled]="!hasNextPage" (click)="dernierePage()" class="rounded-lg border border-teal-500 bg-teal-500 px-4 py-2 text-white">Dernier</button>
-            
-                      <button [disabled]="!hasNextPage" (click)="pageSuivante()" class="rounded-lg border border-teal-500 px-2 py-2 text-gray-700" >
-                          <span class="sr-only">Next</span>
-                          <svg class="mt-1 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                              aria-hidden="true">
-                              <path fill-rule="evenodd"
-                                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                  clip-rule="evenodd">
-                              </path>
-                          </svg>
-                        </button>
-                  </nav>
-                  </div>
-                  
-                </div>
-              </div>
-                    
-        </div>
+    <div class="container">
+        <router-outlet></router-outlet>
     </div>
-  <!-- End Content -->
-
-  <!-- Card assignments -->
-  <div class="p-6">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-  @for(assignment of assignments; track assignment.nom){
-      <div class="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5">
-          <div class="flex justify-between mb-6">
-              <div>
-                <!-- Information sur l'eleve et assignment -->
-                  <div class="flex items-center mb-1">
-                      <div class="flex-shrink-0 w-10 h-10 relative">
-                        <div class="p-1 bg-white rounded-full focus:outline-none focus:ring">
-                            <!-- <img class="w-8 h-8 rounded-full" src="https://laravelui.spruko.com/tailwind/ynex/build/assets/images/faces/9.jpg" alt=""/> -->
-                            <img class="w-8 h-8 rounded-full" [src]="assignment.etudiant.avatar" alt=""/>
-                        </div>
-                    </div>
-                    <div class="p-2 md:block text-left">
-                        <h2 class="text-sm font-semibold text-gray-800">{{assignment.nom}}</h2>
-                        <p class="text-xs text-gray-500">{{assignment.dateRendu}}</p>
-                    </div>
-                  </div>
-
-                  <!-- Information sur le prof -->
-                  <div class="flex items-center mb-1">
-                    <div class="flex-shrink-0 w-10 h-10 relative">
-                      <div class="p-1 bg-white rounded-full focus:outline-none focus:ring">
-                          <img class="w-8 h-8 rounded-full" [src]="assignment.matiere.professeur.avatar" alt=""/>
-                      </div>
-                  </div>
-                  <div class="p-2 md:block text-left">
-                      <h2 class="text-sm font-semibold text-gray-800">{{assignment.matiere.professeur.nom }}</h2>
-                  </div>
-                </div>
-
-                <!-- Information sur la matiere -->
-                <div class="flex items-center mb-1">
-                  <div class="flex-shrink-0 w-10 h-10 relative">
-                    <div class="p-1 bg-white rounded-full focus:outline-none focus:ring">
-                        <img class="w-8 h-8 rounded-full" [src]="assignment.matiere.image" alt=""/>
-                    </div>
-                </div>
-                <div class="p-2 md:block text-left">
-                    <h2 class="text-sm font-semibold text-gray-800">{{assignment.matiere.nom }}</h2>
-                </div>
-              </div>
-              </div>
-          </div>
-          <a href="/gebruikers" class="text-[#f84525] font-medium text-sm hover:text-red-800">View</a> | <button (click)="onDelete(assignment)" class="text-[#f84525] font-medium text-sm hover:text-red-800">Delete</button>
-      </div>
-  }</div></div>
+ 
 </main>
 
 <script src="https://unpkg.com/@popperjs/core@2"></script>
