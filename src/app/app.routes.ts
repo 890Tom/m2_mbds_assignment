@@ -5,6 +5,7 @@ import { authGuard } from './shared/guard/auth.guard';
 import {AddAssignmentComponent} from './assignments/add-assignment/add-assignment.component';
 import { DetailsAssignmentComponent } from './assignments/details-assignment/details-assignment.component';
 import { ListAssignmentComponent } from './assignments/list-assignment/list-assignment.component';
+import { EditAssignmentComponent } from './assignments/edit-assignment/edit-assignment.component';
 
 export const routes: Routes = [
     {
@@ -18,6 +19,10 @@ export const routes: Routes = [
             {
                 path: 'details/:assignment_id', 
                 component: DetailsAssignmentComponent 
+            },
+            {
+                path: 'edit/:assignment_id', 
+                component: EditAssignmentComponent 
             },
             {
                 path: 'add', 

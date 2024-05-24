@@ -1,6 +1,7 @@
 export class Person{
     _id?: string;
     nom!: string;
+    role!: string;
     email!: string;
     avatar!: string;
 }

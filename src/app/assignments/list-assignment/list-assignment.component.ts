@@ -6,6 +6,8 @@ import { AuthService } from '../../shared/service/auth.service';
 import { AssignmentService } from '../../shared/service/assignment.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCoffee, faEdit, faDeleteLeft } from '@fortawesome/free-solid-svg-icons';
+import {  SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-list-assignment',
@@ -13,7 +15,8 @@ import { faCoffee, faEdit, faDeleteLeft } from '@fortawesome/free-solid-svg-icon
   imports: [
     RouterModule,
     FormsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    SweetAlert2Module
   ],
   templateUrl: './list-assignment.component.html',
   styleUrl: './list-assignment.component.css'
@@ -89,8 +92,7 @@ export class ListAssignmentComponent implements OnInit {
     this.assignmentService.deleteAssignment(assignment)
     .subscribe( 
        message => {
-        console.log(message);
-
+        Swal.fire('Success', `Assignment ${assignment._id} is deleted`, 'success');
         // actualiser la liste des assignments
         this.getAssignmentsFromService();
        }
