@@ -30,4 +30,8 @@ export class AssignmentService {
   getAssignmentById(id: string): Observable<any>{
     return this.http.get<Assignment>(this.endPoint + '/' + id)
   }
+
+  addAssignment(assignment: Assignment): Observable<any>{
+    return this.http.post<Assignment>(this.endPoint + '/add', assignment);
+  }
 }
