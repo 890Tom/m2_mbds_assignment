@@ -1,0 +1,161 @@
+<div class="p-6">
+  <div
+    class="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5 p-6"
+  >
+    <div class="flex justify-center gap-4">
+      <button
+        [disabled]="!hasPrevPage"
+        (click)="pagePrecedente()"
+        class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+        type="button"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+          stroke="currentColor"
+          aria-hidden="true"
+          class="w-4 h-4"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+          ></path>
+        </svg>
+      </button>
+      <button
+        [disabled]="!hasPrevPage"
+        (click)="premierePage()"
+        class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20"
+        type="button"
+      >
+        First
+      </button>
+      <button
+        [disabled]="!hasNextPage"
+        (click)="dernierePage()"
+        class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20"
+        type="button"
+      >
+        Last
+      </button>
+      <button
+        [disabled]="!hasNextPage"
+        (click)="pageSuivante()"
+        class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+        type="button"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+          stroke="currentColor"
+          aria-hidden="true"
+          class="w-4 h-4"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+          ></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Card assignments -->
+<div class="p-6">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+    @for(assignment of assignments; track assignment.nom){
+    <div
+      class="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5"
+    >
+      <div class="flex justify-between mb-6">
+        <div>
+          <!-- Information sur l'eleve et assignment -->
+          <div class="flex items-center mb-1">
+            <div class="flex-shrink-0 w-10 h-10 relative">
+              <div
+                class="p-1 bg-white rounded-full focus:outline-none focus:ring"
+              >
+                <!-- <img class="w-8 h-8 rounded-full" src="https://laravelui.spruko.com/tailwind/ynex/build/assets/images/faces/9.jpg" alt=""/> -->
+                <img
+                  class="w-8 h-8 rounded-full"
+                  [src]="assignment.etudiant.avatar"
+                  alt=""
+                />
+              </div>
+            </div>
+            <div class="p-2 md:block text-left">
+              <h2 class="text-sm font-semibold text-gray-800">
+                {{ assignment.nom }}
+              </h2>
+              <p class="text-xs text-gray-500">{{ assignment.dateRendu }}</p>
+            </div>
+          </div>
+
+          <!-- Information sur le prof -->
+          <div class="flex items-center mb-1">
+            <div class="flex-shrink-0 w-10 h-10 relative">
+              <div
+                class="p-1 bg-white rounded-full focus:outline-none focus:ring"
+              >
+                <img
+                  class="w-8 h-8 rounded-full"
+                  [src]="assignment.matiere.professeur.avatar"
+                  alt=""
+                />
+              </div>
+            </div>
+            <div class="p-2 md:block text-left">
+              <h2 class="text-sm font-semibold text-gray-800">
+                {{ assignment.matiere.professeur.nom }}
+              </h2>
+            </div>
+          </div>
+
+          <!-- Information sur la matiere -->
+          <div class="flex items-center mb-1">
+            <div class="flex-shrink-0 w-10 h-10 relative">
+              <div
+                class="p-1 bg-white rounded-full focus:outline-none focus:ring"
+              >
+                <img
+                  class="w-8 h-8 rounded-full"
+                  [src]="assignment.matiere.image"
+                  alt=""
+                />
+              </div>
+            </div>
+            <div class="p-2 md:block text-left">
+              <h2 class="text-sm font-semibold text-gray-800">
+                {{ assignment.matiere.nom }}
+              </h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-between p-2 mt-4">
+        <a
+          [routerLink]="['/assignment/details', assignment._id]"
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded text-xs"
+        >
+          <fa-icon [icon]="faEdit"></fa-icon>
+          Detail
+        </a>
+        <button
+          (click)="onDelete(assignment)"
+          class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 text-xs rounded"
+        >
+          <fa-icon [icon]="faDelete"></fa-icon>
+          Delete
+        </button>
+      </div>
+    </div>
+    }
+  </div>
+</div>

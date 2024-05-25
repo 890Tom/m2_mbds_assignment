@@ -4,6 +4,7 @@ import { environment } from '../../../../environment';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { JwtPayload, jwtDecode } from 'jwt-decode';
+import jwt_decode from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -47,7 +48,7 @@ export class AuthService {
   isAdmin() {
     const promesse = new Promise<boolean>((resolve, reject) => {
       // decode le token en cours
-      const decodedToken = this.decodeToken();
+      const decodedToken = this.decode();
       if(decodedToken){
         // vérifie si l'utilisateur est admin
         resolve(decodedToken.role === 'administrateur'? true : false);
@@ -62,8 +63,38 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
-  decodeToken(): any {
+  isTokenExpired(): boolean {
     const token = this.getToken();
+    if (!token) {
+      return true;
+    }
+
+    const decodedToken: any = this.decodeToken(token);
+    const expirationDate = new Date(0);
+    expirationDate.setUTCSeconds(decodedToken.exp);
+
+    return expirationDate < new Date();
+  }
+
+  decode(): any {
+    const token = this.getToken();
+    if(token){
+      const decodedToken = jwtDecode(token);
+      return decodedToken;
+    }
+    return null;
+  }
+
+  getUser(): any {
+    const token = this.getToken();
+    if(token){
+      const decodedToken = jwtDecode(token);
+      return decodedToken;
+    }
+    return null;
+  }
+
+  decodeToken(token : string): any {
     if(token){
       const decodedToken = jwtDecode(token);
       return decodedToken;
@@ -77,6 +108,5 @@ export class AuthService {
       this.router.navigate(['/signin']);
     }
   }
-
 
 }
