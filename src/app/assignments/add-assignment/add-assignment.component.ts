@@ -7,12 +7,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { User } from '../../shared/interface/user.interface';
 import { UserService } from '../../shared/service/user.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faCoffee, faEdit, faDeleteLeft } from '@fortawesome/free-solid-svg-icons';
+import { faCoffee, faEdit, faDeleteLeft, faBackwardStep, faArrowAltCircleRight, faArrowAltCircleLeft, faSave, faPen } from '@fortawesome/free-solid-svg-icons';
 import { Assignment, Matiere, Person } from '../../shared/interface/assignment.interface';
 import { MatiereService } from '../../shared/service/matiere.service';
 import { AssignmentService } from '../../shared/service/assignment.service';
 import { Router } from '@angular/router';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-assignment',
@@ -38,6 +39,8 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 export class AddAssignmentComponent implements OnInit {
   // liste des etudiants
   etudiants: Person[] = [];
+  filterdEtudiants: Person[] = [];
+  searchStudent: string = '';
 
   // Champ pour les formulaires
   nomAssignment: string = '';
@@ -55,7 +58,10 @@ export class AddAssignmentComponent implements OnInit {
   hasPrevPageEtudiant!: boolean;
 
   // liste des matieres
-  matieres: Matiere[] = []
+  matieres: Matiere[] = [];
+  filteredMatieres: Matiere[] = [];
+  searchSubject: string = '';
+
   // pour la pagination des etudiants
   pageMatiere = 1;
   limitMatiere = 20;
@@ -79,6 +85,10 @@ export class AddAssignmentComponent implements OnInit {
 
   faDelete = faDeleteLeft
   faEdit = faEdit;
+  faBack = faArrowAltCircleLeft;
+  faNext = faArrowAltCircleRight;
+  faSubmit = faSave;
+  faChoose = faPen;
 
   constructor(private _formBuilder: FormBuilder,
     private userService: UserService,
@@ -91,8 +101,13 @@ export class AddAssignmentComponent implements OnInit {
     this.getMatiereFromService();
   }
 
+  onInputChange() {
+    this.filterdEtudiants = this.etudiants.filter(item =>
+      item.nom.toLowerCase().includes(this.searchStudent.toLowerCase())
+    );
+  }
+
   getEtudiantsFromService() {
-    console.log('recup')
     // on récupère les etudiants depuis le service
     this.userService.getAllStudents(this.pageEtudiant, this.limitEtudiant)
       .subscribe(
@@ -105,6 +120,8 @@ export class AddAssignmentComponent implements OnInit {
           this.prevPageEtudiant = data.prevPage;
           this.hasNextPageEtudiant = data.hasNextPage;
           this.hasPrevPageEtudiant = data.hasPrevPage;
+
+          this.filterdEtudiants = this.etudiants;
         });
 
   }
@@ -145,6 +162,9 @@ export class AddAssignmentComponent implements OnInit {
           this.prevPageMatiere = data.prevPage;
           this.hasNextPageMatiere = data.hasNextPage;
           this.hasPrevPageMatiere = data.hasPrevPage;
+          
+          this.filteredMatieres = this.matieres;
+
         });
 
   }
@@ -211,7 +231,7 @@ export class AddAssignmentComponent implements OnInit {
     this.assignmentService.addAssignment(this.assignment)
       .subscribe(
         message => {
-          // redirection vers la liste des assignments
+          Swal.fire('Success', `Assignment ${this.assignment.nom} is added`, 'success');
           this.router.navigate(['/assignment/list']);
         }
       )

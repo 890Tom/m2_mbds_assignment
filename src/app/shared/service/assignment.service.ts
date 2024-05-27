@@ -33,6 +33,6 @@ export class AssignmentService {
   }
 
   returnAssignment(assignment: Assignment): Observable<any>{ 
-    return this.http.patch<Assignment>(this.endPoint + '/return', assignment);
+    return this.http.patch<Assignment>(this.endPoint + '/'+assignment._id, assignment);
   }
 }

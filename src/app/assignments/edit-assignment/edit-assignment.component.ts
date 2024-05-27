@@ -7,11 +7,12 @@ import { AuthService } from '../../shared/service/auth.service';
 import { AssignmentService } from '../../shared/service/assignment.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-assignment',
   standalone: true,
-  imports: [FontAwesomeModule, SweetAlert2Module],
+  imports: [FontAwesomeModule, SweetAlert2Module, FormsModule],
   templateUrl: './edit-assignment.component.html',
   styleUrl: './edit-assignment.component.css'
 })
@@ -59,12 +60,15 @@ export class EditAssignmentComponent {
   }
 
   onReturn() {
+    console.log(this.mark);
     if(!this.mark) Swal.fire('Error', `Please fill in the note first`, 'error');
     else {
       this.assignment.note = this.mark;
       this.assignment.remarque = this.remarq;
       this.assignment.rendu = true;
       this.assignment.dateRendu = new Date();
+
+      console.log(this.assignment);
 
       this.assignmentService.returnAssignment(this.assignment).subscribe( 
         message => {

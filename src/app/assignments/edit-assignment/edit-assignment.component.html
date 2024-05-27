@@ -149,8 +149,9 @@
             Mark
           </label>
           <input  
+            matInput
             type="number"
-            [(value)]="mark"
+            [(ngModel)]="mark"
             class="appearance-none block w-full bg-white-200 text-white-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-white-500"
           />
         </div>
@@ -167,9 +168,9 @@
             id="description"
             name="description"
             rows="5"
+            [(ngModel)]="remarq"
             class="shadow-sm shadow-md focus:ring-indigo-500 bg-white-200 focus:border-indigo-500 rounded-lg block w-full sm:text-sm border text-gray-700 border-white-300 p-2.5"
           >
-                {{ assignment.remarque }}
               </textarea
           >
         </div>
