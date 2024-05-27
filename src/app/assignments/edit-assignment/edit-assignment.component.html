@@ -148,9 +148,9 @@
           >
             Mark
           </label>
-          <input
+          <input  
             type="number"
-            [value]="assignment.note"
+            [(value)]="mark"
             class="appearance-none block w-full bg-white-200 text-white-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-white-500"
           />
         </div>
@@ -183,7 +183,7 @@
           Save
         </button>
         <button
-          (click)="onDelete(assignment)"
+          (click)="onReturn()"
           class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
         >
           <fa-icon [icon]="faSend"></fa-icon>

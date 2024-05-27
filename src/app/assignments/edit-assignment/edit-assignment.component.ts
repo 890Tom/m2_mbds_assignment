@@ -16,13 +16,16 @@ import Swal from 'sweetalert2';
   styleUrl: './edit-assignment.component.css'
 })
 export class EditAssignmentComponent {
-  assignment!: Assignment | undefined;
+  assignment!: Assignment;
   faCoffee = faCoffee;
   faDelete = faDeleteLeft
   faEdit = faEdit;
   faSend = faSchool;
   canEdit = true;
   isAdmin!: boolean ;
+
+  mark!: number;
+  remarq!: string;
 
   constructor(
     private authentificationService : AuthService,
@@ -35,19 +38,44 @@ export class EditAssignmentComponent {
     const routeParams = this.route.snapshot.paramMap;
     const assignmentId = routeParams.get('assignment_id') as string;
 
-    this.assignmentService.getAssignmentById(assignmentId).subscribe(assignment => {  this.assignment = assignment; });
+    this.assignmentService.getAssignmentById(assignmentId).subscribe(assignment => {  
+      this.assignment = assignment; 
+      this.mark = this.assignment.note;
+      this.remarq = this.assignment.remarque;
+    });
     this.authentificationService.isAdmin().then(role => { this.isAdmin = role ; })
 
     this.canEdit = this.isAdmin && !this.assignment?.rendu;
   }
 
-  onDelete(assignment: Assignment){
-    this.assignmentService.deleteAssignment(assignment)
+  onDelete(){
+    this.assignmentService.deleteAssignment(this.assignment)
     .subscribe( 
        message => {
-        Swal.fire('Success', `Assignment ${assignment._id} is deleted`, 'success');
+        Swal.fire('Success', `Assignment ${this.assignment._id} is deleted`, 'success');
         this.router.navigate(['/assignment/list']);
        }
     )
+  }
+
+  onReturn() {
+    if(!this.mark) Swal.fire('Error', `Please fill in the note first`, 'error');
+    else {
+      this.assignment.note = this.mark;
+      this.assignment.remarque = this.remarq;
+      this.assignment.rendu = true;
+      this.assignment.dateRendu = new Date();
+
+      this.assignmentService.returnAssignment(this.assignment).subscribe( 
+        message => {
+          Swal.fire('Success', `Assignment ${this.assignment._id} is updated`, 'success');
+          this.router.navigate(['/assignment/list']);
+        }
+      )
+    }
+  }
+
+  onSave() {
+
   }
 }

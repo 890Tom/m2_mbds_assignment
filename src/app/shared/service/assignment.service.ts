@@ -21,10 +21,7 @@ export class AssignmentService {
   }
 
   deleteAssignment(assignment: Assignment): Observable<any>{
-    const body = JSON.stringify({
-      "id" : assignment._id
-    })
-    return this.http.delete(this.endPoint + '/delete',{body: body})
+    return this.http.delete(this.endPoint + '/'+ assignment._id)
   }
 
   getAssignmentById(id: string): Observable<any>{
@@ -33,5 +30,9 @@ export class AssignmentService {
 
   addAssignment(assignment: Assignment): Observable<any>{
     return this.http.post<Assignment>(this.endPoint + '/add', assignment);
+  }
+
+  returnAssignment(assignment: Assignment): Observable<any>{ 
+    return this.http.patch<Assignment>(this.endPoint + '/return', assignment);
   }
 }
