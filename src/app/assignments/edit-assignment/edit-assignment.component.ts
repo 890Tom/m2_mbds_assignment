@@ -45,11 +45,16 @@ export class EditAssignmentComponent {
       this.remarq = this.assignment.remarque;
     });
 
-    this.authentificationService.isAdmin().then(role => {
+    this.isUserAdmin().then(role => {
       this.isAdmin = role;
-      this.canEdit = this.isAdmin && !this.assignment?.rendu;
+      this.canEdit = (this.isAdmin && !this.assignment?.rendu);
+      console.log(this.canEdit);
     })
+  }
 
+  async isUserAdmin(){
+    const isAdmin = await this.authentificationService.isAdmin();
+    return isAdmin;
   }
 
   onDelete() {
@@ -63,7 +68,6 @@ export class EditAssignmentComponent {
   }
 
   onReturn() {
-    console.log(this.mark);
     if (!this.mark) Swal.fire('Error', `Please fill in the note first`, 'error');
     else {
       this.assignment.note = this.mark;
@@ -71,11 +75,10 @@ export class EditAssignmentComponent {
       this.assignment.rendu = true;
       this.assignment.dateRendu = new Date();
 
-      console.log(this.assignment);
 
       this.assignmentService.returnAssignment(this.assignment).subscribe(
         message => {
-          Swal.fire('Success', `Assignment ${this.assignment._id} is updated`, 'success');
+          Swal.fire('Success', `Assignment ${this.assignment._id} is submited`, 'success');
           this.router.navigate(['/assignment/list']);
         }
       )
@@ -83,6 +86,15 @@ export class EditAssignmentComponent {
   }
 
   onSave() {
-
+    this.assignment.note = this.mark;
+    this.assignment.remarque = this.remarq;
+    
+    this.assignmentService.updateAssignment(this.assignment)
+    .subscribe(
+      message => {
+        Swal.fire('Success', `Assignment ${this.assignment._id} is updated`, 'success');
+        this.router.navigate(['/assignment/list']);
+      }
+    )
   }
 }

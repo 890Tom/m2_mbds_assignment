@@ -29,7 +29,6 @@ export class AssignmentsComponent implements OnInit {
     console.log(this.authService.getUser());
     
     this.user = this.authService.getUser() as Person;
-    console.log(this.user);
   }
 
   signOut() {

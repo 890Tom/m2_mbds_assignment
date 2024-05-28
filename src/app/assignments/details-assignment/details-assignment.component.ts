@@ -43,7 +43,7 @@ export class DetailsAssignmentComponent implements OnInit {
     this.assignmentService.getAssignmentById(assignmentId).subscribe(assignment => { this.assignment = assignment; });
     this.authentificationService.isAdmin().then(role => {
       this.isAdmin = role;
-      this.canEdit = this.isAdmin && !this.assignment?.rendu;
+      this.canEdit = (this.isAdmin && !this.assignment?.rendu);
     })
 
   }

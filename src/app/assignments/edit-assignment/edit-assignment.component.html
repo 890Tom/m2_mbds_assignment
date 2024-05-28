@@ -155,7 +155,8 @@
             matInput
             type="number"
             [(ngModel)]="mark"
-            [class.opacity-50]="canEdit" [class.cursor-not-allowed]="canEdit"
+            [disabled]="!canEdit"
+            [class.opacity-50]="!canEdit" [class.cursor-not-allowed]="!canEdit"
             class="appearance-none block w-full bg-white-200 text-white-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-white-500"
           />
         </div>
@@ -173,7 +174,7 @@
             name="description"
             rows="5"
             [(ngModel)]="remarq"
-            [class.opacity-50]="canEdit" [class.cursor-not-allowed]="canEdit"
+            [class.opacity-50]="!canEdit" [class.cursor-not-allowed]="!canEdit"
             class="shadow-sm shadow-md focus:ring-indigo-500 bg-white-200 focus:border-indigo-500 rounded-lg block w-full sm:text-sm border text-gray-700 border-white-300 p-2.5"
           >
               </textarea
@@ -182,21 +183,22 @@
       </div>
       <div class="flex justify-between p-2 mt-4">
         <button
-          [disabled]="canEdit"
+          [disabled]="!canEdit"
+          (click)="onSave()"
           class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          [class.opacity-50]="canEdit" [class.cursor-not-allowed]="canEdit"
+          [class.opacity-50]="!canEdit" [class.cursor-not-allowed]="!canEdit"
         >
           <fa-icon [icon]="faEdit"></fa-icon>
           Save
         </button>
         <button
           (click)="onReturn()"
-          [disabled]="canEdit"
+          [disabled]="!canEdit"
           class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-          [class.opacity-50]="canEdit" [class.cursor-not-allowed]="canEdit"
+          [class.opacity-50]="!canEdit" [class.cursor-not-allowed]="!canEdit"
         >
           <fa-icon [icon]="faSend"></fa-icon>
-          Rendre
+          Submit
         </button>
       </div>
     </div>

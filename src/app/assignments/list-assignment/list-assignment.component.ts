@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormsModule } from '@angular/forms';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormControl, FormsModule, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Assignment } from '../../shared/interface/assignment.interface';
 import { AuthService } from '../../shared/service/auth.service';
@@ -8,6 +8,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCoffee, faEdit, faDeleteLeft } from '@fortawesome/free-solid-svg-icons';
 import {  SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import Swal from 'sweetalert2';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { MatDialog } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-list-assignment',
@@ -36,6 +39,8 @@ export class ListAssignmentComponent implements OnInit {
 
   // liste des assignments
   assignments: Assignment[] = [];
+  assignmentsRendu: Assignment[] = [];
+  assignmentsNonRendu: Assignment[] = [];
 
   faDelete = faDeleteLeft
   faEdit = faEdit;
@@ -45,10 +50,44 @@ export class ListAssignmentComponent implements OnInit {
   constructor(
     private authentificationService: AuthService,
     private assignmentService: AssignmentService,
+    public dialog: MatDialog, 
+    private fb: FormBuilder
   ) { }
 
   ngOnInit(): void {
     this.getAssignmentsFromService();
+  }
+
+  /* openDialog(assignment: any, callback: () => void): void {
+    const dialogRef = this.dialog.open(AssignmentModalComponent, {
+      width: '250px',
+      data: assignment,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Update assignment with note and remark
+        assignment.note = result.note;
+        assignment.remarque = result.remarque;
+        callback();
+      }
+    });
+  } */
+
+  drop(event: CdkDragDrop<any[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      const assignment = event.previousContainer.data[event.previousIndex];
+      /* this.openDialog(assignment, () => {
+        transferArrayItem(
+          event.previousContainer.data,
+          event.container.data,
+          event.previousIndex,
+          event.currentIndex
+        );
+      }); */
+    }
   }
 
   getAssignmentsFromService(){
@@ -58,6 +97,14 @@ export class ListAssignmentComponent implements OnInit {
       (data)=>{
       // les données arrivent ici au bout d'un certain temps
       this.assignments = data.docs;
+
+      // filter this.assignments by rendu = false
+      this.assignmentsNonRendu = this.assignments.filter(assignment => !assignment.rendu);
+      this.assignmentsRendu = this.assignments.filter(assignment => assignment.rendu);
+
+
+      // on met à jour les variables de pagination
+
       this.totalDocs = data.totalDocs;
       this.totalPages = data.totalPages;
       this.nextPage = data.nextPage;

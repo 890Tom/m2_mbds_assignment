@@ -67,101 +67,202 @@
   </div>
 </div>
 
-<!-- Card assignments -->
+<!-- assignments.component.html -->
 <div class="p-6">
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-    @for(assignment of assignments; track assignment.nom){
-    <div
-      class="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5 relative"
-    >
-
-    <span class="absolute top-0 right-0 -mr-4 -mb-10 inline-block px-2 py-1 text-xs font-semibold leading-none rounded {{ assignment.rendu ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800' }}">{{ assignment.rendu ? 'Rendu' : 'Non Rendu' }}</span> <!-- Adjusted margin -->
-      
-    <div class="flex justify-between mb-6">
-        <div>
-          <!-- Information sur l'eleve et assignment -->
-          <div class="flex items-center mb-1">
-            <div class="flex-shrink-0 w-10 h-10 relative">
-              <div
-                class="p-1 bg-white rounded-full focus:outline-none focus:ring"
-              >
-                <!-- <img class="w-8 h-8 rounded-full" src="https://laravelui.spruko.com/tailwind/ynex/build/assets/images/faces/9.jpg" alt=""/> -->
-                <img
-                  class="w-8 h-8 rounded-full"
-                  [src]="assignment.etudiant.avatar"
-                  alt=""
-                />
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+    <div class="p-4 rounded">
+      <h2 class="text-lg font-semibold mb-4">Not submit</h2>
+      @for(assignment of assignmentsNonRendu; track assignment.nom){
+      <!-- Carte de l'assignment -->
+      <div
+        class="bg-white rounded-md border border-gray-100 p-6 mb-6 shadow-md shadow-black/5 relative"
+      >
+        <span
+          class="absolute top-0 right-0 -mr-4 -mb-10 inline-block px-2 py-1 text-xs font-semibold leading-none rounded bg-red-200 text-red-800"
+          >Not submit</span
+        >
+        <!-- Contenu de la carte -->
+        <div class="flex justify-between mb-6">
+          <div>
+            <!-- Information sur l'élève et l'assignment -->
+            <div class="flex items-center mb-1">
+              <div class="flex-shrink-0 w-10 h-10 relative">
+                <div
+                  class="p-1 bg-white rounded-full focus:outline-none focus:ring"
+                >
+                  <img
+                    class="w-8 h-8 rounded-full"
+                    [src]="assignment.etudiant.avatar"
+                    alt=""
+                  />
+                </div>
+              </div>
+              <div class="p-2 md:block text-left">
+                <h2 class="text-sm font-semibold text-gray-800">
+                  {{ assignment.nom }}
+                </h2>
+                <p class="text-xs text-gray-500">
+                  {{ assignment.dateRendu }}
+                </p>
               </div>
             </div>
-            <div class="p-2 md:block text-left">
-              <h2 class="text-sm font-semibold text-gray-800">
-                {{ assignment.nom }}
-              </h2>
-              <p class="text-xs text-gray-500">{{ assignment.dateRendu }}</p>
-            </div>
-          </div>
-
-          <!-- Information sur le prof -->
-          <div class="flex items-center mb-1">
-            <div class="flex-shrink-0 w-10 h-10 relative">
-              <div
-                class="p-1 bg-white rounded-full focus:outline-none focus:ring"
-              >
-                <img
-                  class="w-8 h-8 rounded-full"
-                  [src]="assignment.matiere.professeur.avatar"
-                  alt=""
-                />
+            <!-- Information sur le prof -->
+            <div class="flex items-center mb-1">
+              <div class="flex-shrink-0 w-10 h-10 relative">
+                <div
+                  class="p-1 bg-white rounded-full focus:outline-none focus:ring"
+                >
+                  <img
+                    class="w-8 h-8 rounded-full"
+                    [src]="assignment.matiere.professeur.avatar"
+                    alt=""
+                  />
+                </div>
+              </div>
+              <div class="p-2 md:block text-left">
+                <h2 class="text-sm font-semibold text-gray-800">
+                  {{ assignment.matiere.professeur.nom }}
+                </h2>
               </div>
             </div>
-            <div class="p-2 md:block text-left">
-              <h2 class="text-sm font-semibold text-gray-800">
-                {{ assignment.matiere.professeur.nom }}
-              </h2>
-            </div>
-          </div>
-
-          <!-- Information sur la matiere -->
-          <div class="flex items-center mb-1">
-            <div class="flex-shrink-0 w-10 h-10 relative">
-              <div
-                class="p-1 bg-white rounded-full focus:outline-none focus:ring"
-              >
-                <img
-                  class="w-8 h-8 rounded-full"
-                  [src]="assignment.matiere.image"
-                  alt=""
-                />
+            <!-- Information sur la matière -->
+            <div class="flex items-center mb-1">
+              <div class="flex-shrink-0 w-10 h-10 relative">
+                <div
+                  class="p-1 bg-white rounded-full focus:outline-none focus:ring"
+                >
+                  <img
+                    class="w-8 h-8 rounded-full"
+                    [src]="assignment.matiere.image"
+                    alt=""
+                  />
+                </div>
               </div>
-            </div>
-            <div class="p-2 md:block text-left">
-              <h2 class="text-sm font-semibold text-gray-800">
-                {{ assignment.matiere.nom }}
-              </h2>
+              <div class="p-2 md:block text-left">
+                <h2 class="text-sm font-semibold text-gray-800">
+                  {{ assignment.matiere.nom }}
+                </h2>
+              </div>
             </div>
           </div>
         </div>
+        <div class="flex justify-between p-2 mt-4">
+          <a
+            [routerLink]="['/assignment/details', assignment._id]"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded text-xs"
+          >
+            <fa-icon [icon]="faEdit"></fa-icon>
+            Detail
+          </a>
+          <button
+            (click)="onDelete(assignment)"
+            [disabled]="!canDelete(assignment)"
+            [class.opacity-50]="!canDelete(assignment)"
+            [class.cursor-not-allowed]="!canDelete(assignment)"
+            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 text-xs rounded"
+          >
+            <fa-icon [icon]="faDelete"></fa-icon>
+            Delete
+          </button>
+        </div>
       </div>
-      <div class="flex justify-between p-2 mt-4">
-        <a
-          [routerLink]="['/assignment/details', assignment._id]"
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded text-xs"
-        >
-          <fa-icon [icon]="faEdit"></fa-icon>
-          Detail
-        </a>
-        <button
-          (click)="onDelete(assignment)"
-          [disabled]="!canDelete(assignment)"
-          [class.opacity-50]="!canDelete(assignment)" [class.cursor-not-allowed]="!canDelete(assignment)"
-          class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 text-xs rounded"
-        >
-          <fa-icon [icon]="faDelete"></fa-icon>
-          Delete
-        </button>
-      </div>
-     
+      }
     </div>
-    }
+    <div class="p-4 rounded">
+      <h2 class="text-lg font-semibold mb-4">Submit</h2>
+      @for(assignment of assignmentsRendu; track assignment.nom){
+      <!-- Carte de l'assignment -->
+      <div
+        class="bg-white rounded-md border border-gray-100 p-6 mb-6 shadow-md shadow-black/5 relative"
+      >
+        <span
+          class="absolute top-0 right-0 -mr-4 -mb-10 inline-block px-2 py-1 text-xs font-semibold leading-none rounded bg-green-200 text-green-800"
+          >Submit</span
+        >
+        <!-- Contenu de la carte -->
+        <div class="flex justify-between mb-6">
+          <div>
+            <!-- Information sur l'élève et l'assignment -->
+            <div class="flex items-center mb-1">
+              <div class="flex-shrink-0 w-10 h-10 relative">
+                <div
+                  class="p-1 bg-white rounded-full focus:outline-none focus:ring"
+                >
+                  <img
+                    class="w-8 h-8 rounded-full"
+                    [src]="assignment.etudiant.avatar"
+                    alt=""
+                  />
+                </div>
+              </div>
+              <div class="p-2 md:block text-left">
+                <h2 class="text-sm font-semibold text-gray-800">
+                  {{ assignment.nom }}
+                </h2>
+                <p class="text-xs text-gray-500">{{ assignment.dateRendu }}</p>
+              </div>
+            </div>
+            <!-- Information sur le prof -->
+            <div class="flex items-center mb-1">
+              <div class="flex-shrink-0 w-10 h-10 relative">
+                <div
+                  class="p-1 bg-white rounded-full focus:outline-none focus:ring"
+                >
+                  <img
+                    class="w-8 h-8 rounded-full"
+                    [src]="assignment.matiere.professeur.avatar"
+                    alt=""
+                  />
+                </div>
+              </div>
+              <div class="p-2 md:block text-left">
+                <h2 class="text-sm font-semibold text-gray-800">
+                  {{ assignment.matiere.professeur.nom }}
+                </h2>
+              </div>
+            </div>
+            <!-- Information sur la matière -->
+            <div class="flex items-center mb-1">
+              <div class="flex-shrink-0 w-10 h-10 relative">
+                <div
+                  class="p-1 bg-white rounded-full focus:outline-none focus:ring"
+                >
+                  <img
+                    class="w-8 h-8 rounded-full"
+                    [src]="assignment.matiere.image"
+                    alt=""
+                  />
+                </div>
+              </div>
+              <div class="p-2 md:block text-left">
+                <h2 class="text-sm font-semibold text-gray-800">
+                  {{ assignment.matiere.nom }}
+                </h2>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-between p-2 mt-4">
+          <a
+            [routerLink]="['/assignment/details', assignment._id]"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded text-xs"
+          >
+            <fa-icon [icon]="faEdit"></fa-icon>
+            Detail
+          </a>
+          <button
+            (click)="onDelete(assignment)"
+            [disabled]="!canDelete(assignment)"
+            [class.opacity-50]="!canDelete(assignment)"
+            [class.cursor-not-allowed]="!canDelete(assignment)"
+            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 text-xs rounded"
+          >
+            <fa-icon [icon]="faDelete"></fa-icon>
+            Delete
+          </button>
+        </div>
+      </div>
+      }
+    </div>
   </div>
 </div>

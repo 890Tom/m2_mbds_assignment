@@ -24,6 +24,10 @@ export class AssignmentService {
     return this.http.delete(this.endPoint + '/'+ assignment._id)
   }
 
+  updateAssignment(assignment: Assignment): Observable<any>{ 
+    return this.http.put<Assignment>(this.endPoint + '/'+assignment._id, assignment);
+  }
+
   getAssignmentById(id: string): Observable<any>{
     return this.http.get<Assignment>(this.endPoint + '/' + id)
   }
