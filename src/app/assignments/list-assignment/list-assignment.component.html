@@ -1,3 +1,7 @@
+
+<div *ngIf="isLoading" class="loading-overlay">
+  <div class="spinner-border"></div>
+</div>
 <div class="p-6">
   <div
     class="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5 p-6"
@@ -70,11 +74,12 @@
 <!-- assignments.component.html -->
 <div class="p-6">
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-    <div class="p-4 rounded">
+    <div cdkDropList [cdkDropListData]="assignmentsNonRendu" class="p-4 rounded" (cdkDropListDropped)="drop($event)">
       <h2 class="text-lg font-semibold mb-4">Not submit</h2>
       @for(assignment of assignmentsNonRendu; track assignment.nom){
       <!-- Carte de l'assignment -->
       <div
+        cdkDrag
         class="bg-white rounded-md border border-gray-100 p-6 mb-6 shadow-md shadow-black/5 relative"
       >
         <span
@@ -168,11 +173,12 @@
       </div>
       }
     </div>
-    <div class="p-4 rounded">
+    <div cdkDropList [cdkDropListData]="assignmentsRendu" class="p-4 rounded" (cdkDropListDropped)="drop($event)">
       <h2 class="text-lg font-semibold mb-4">Submit</h2>
       @for(assignment of assignmentsRendu; track assignment.nom){
       <!-- Carte de l'assignment -->
       <div
+      cdkDrag
         class="bg-white rounded-md border border-gray-100 p-6 mb-6 shadow-md shadow-black/5 relative"
       >
         <span

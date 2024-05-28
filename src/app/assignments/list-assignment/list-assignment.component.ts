@@ -8,7 +8,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCoffee, faEdit, faDeleteLeft } from '@fortawesome/free-solid-svg-icons';
 import {  SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import Swal from 'sweetalert2';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -19,7 +19,9 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
     RouterModule,
     FormsModule,
     FontAwesomeModule,
-    SweetAlert2Module
+    SweetAlert2Module,
+    CdkDropList, 
+    CdkDrag
   ],
   templateUrl: './list-assignment.component.html',
   styleUrl: './list-assignment.component.css'
@@ -46,6 +48,7 @@ export class ListAssignmentComponent implements OnInit {
   faEdit = faEdit;
   canEdit = true;
   isAdmin!: boolean;
+  isLoading = true; 
 
   constructor(
     private authentificationService: AuthService,
@@ -74,11 +77,16 @@ export class ListAssignmentComponent implements OnInit {
     });
   } */
 
-  drop(event: CdkDragDrop<any[]>) {
+  drop(event: CdkDragDrop<Assignment[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      console.log(event.container.data);
+
     } else {
       const assignment = event.previousContainer.data[event.previousIndex];
+
+      console.log(assignment);
+
       /* this.openDialog(assignment, () => {
         transferArrayItem(
           event.previousContainer.data,
@@ -111,6 +119,8 @@ export class ListAssignmentComponent implements OnInit {
       this.prevPage = data.prevPage;
       this.hasNextPage = data.hasNextPage;
       this.hasPrevPage = data.hasPrevPage;
+
+      this.isLoading = false;
     });
 
     this.authentificationService.isAdmin().then(role => {

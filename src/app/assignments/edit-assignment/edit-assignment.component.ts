@@ -48,7 +48,6 @@ export class EditAssignmentComponent {
     this.isUserAdmin().then(role => {
       this.isAdmin = role;
       this.canEdit = (this.isAdmin && !this.assignment?.rendu);
-      console.log(this.canEdit);
     })
   }
 

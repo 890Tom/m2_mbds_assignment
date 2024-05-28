@@ -1,0 +1,16 @@
+.loading-overlay {
+  position: fixed; /* Ensures the loader stays in place when scrolling */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex; /* Enables centering elements within */
+  justify-content: center; /* Centers content horizontally */
+  align-items: center; /* Centers content vertically */
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.3
+  ); /* Optional: Semi-transparent background */
+}
