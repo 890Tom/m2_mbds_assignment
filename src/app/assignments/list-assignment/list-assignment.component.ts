@@ -39,9 +39,11 @@ export class ListAssignmentComponent implements OnInit {
 
   faDelete = faDeleteLeft
   faEdit = faEdit;
+  canEdit = true;
+  isAdmin!: boolean;
 
   constructor(
-    private authService: AuthService,
+    private authentificationService: AuthService,
     private assignmentService: AssignmentService,
   ) { }
 
@@ -63,6 +65,15 @@ export class ListAssignmentComponent implements OnInit {
       this.hasNextPage = data.hasNextPage;
       this.hasPrevPage = data.hasPrevPage;
     });
+
+    this.authentificationService.isAdmin().then(role => {
+      this.isAdmin = role;
+      this.canEdit = this.isAdmin;
+    })
+  }
+
+  canDelete(assignment: Assignment){
+    return this.isAdmin && !assignment.rendu;
   }
 
   // pour la pagination
@@ -100,6 +111,6 @@ export class ListAssignmentComponent implements OnInit {
   }
 
   signOut() {
-    this.authService.logOut();
+    this.authentificationService.logOut();
   }
 }

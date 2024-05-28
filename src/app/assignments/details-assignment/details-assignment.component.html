@@ -42,7 +42,7 @@
               />
             </svg>
             <a
-              href="#"
+              [routerLink]="['/assignment/list', assignment._id]"
               class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white"
               >List</a
             >
@@ -76,7 +76,9 @@
   </div>
 </div>
 <div class="p-6">
-  <div class="bg-white rounded-lg shadow-md p-4">
+  <div class="bg-white rounded-lg shadow-md p-4 relative">
+    <span class="absolute top-0 right-0 -mr-4 -mb-10 inline-block px-2 py-1 text-xs font-semibold leading-none rounded {{ assignment.rendu ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800' }}">{{ assignment.rendu ? 'Rendu' : 'Non Rendu' }}</span> <!-- Adjusted margin -->
+
     <div class="flex items-center justify-between">
       <h5 class="text-gray-900 font-bold">Assignment : {{ assignment.nom }}</h5>
       <div class="flex items-center">
@@ -168,6 +170,8 @@
         </a>
         <button
           (click)="onDelete(assignment)"
+          [disabled]="canEdit"
+          [class.opacity-50]="canEdit" [class.cursor-not-allowed]="canEdit"
           class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
         >
           <fa-icon [icon]="faDelete"></fa-icon>

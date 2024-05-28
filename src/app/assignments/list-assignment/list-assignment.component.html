@@ -72,9 +72,12 @@
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
     @for(assignment of assignments; track assignment.nom){
     <div
-      class="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5"
+      class="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5 relative"
     >
-      <div class="flex justify-between mb-6">
+
+    <span class="absolute top-0 right-0 -mr-4 -mb-10 inline-block px-2 py-1 text-xs font-semibold leading-none rounded {{ assignment.rendu ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800' }}">{{ assignment.rendu ? 'Rendu' : 'Non Rendu' }}</span> <!-- Adjusted margin -->
+      
+    <div class="flex justify-between mb-6">
         <div>
           <!-- Information sur l'eleve et assignment -->
           <div class="flex items-center mb-1">
@@ -149,12 +152,15 @@
         </a>
         <button
           (click)="onDelete(assignment)"
+          [disabled]="!canDelete(assignment)"
+          [class.opacity-50]="!canDelete(assignment)" [class.cursor-not-allowed]="!canDelete(assignment)"
           class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 text-xs rounded"
         >
           <fa-icon [icon]="faDelete"></fa-icon>
           Delete
         </button>
       </div>
+     
     </div>
     }
   </div>

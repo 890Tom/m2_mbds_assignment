@@ -43,7 +43,7 @@
               />
             </svg>
             <a
-              href="#"
+              [routerLink]="['/assignment/list', assignment._id]"
               class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white"
               >List</a
             >
@@ -78,7 +78,9 @@
 </div>
 
 <div class="p-6">
-  <div class="bg-white rounded-lg shadow-md p-4">
+  <div class="bg-white rounded-lg shadow-md p-4 relative">
+    <span class="absolute top-0 right-0 -mr-4 -mb-10 inline-block px-2 py-1 text-xs font-semibold leading-none rounded {{ assignment.rendu ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800' }}">{{ assignment.rendu ? 'Rendu' : 'Non Rendu' }}</span> <!-- Adjusted margin -->
+
     <div class="flex items-center justify-between">
       <h5 class="text-gray-900 font-bold">Assignment : {{ assignment.nom }}</h5>
       <div class="flex items-center">
@@ -136,6 +138,7 @@
           <input
             type="text"
             [value]="assignment.matiere.nom"
+            [class.opacity-50]="canEdit" [class.cursor-not-allowed]="canEdit"
             class="appearance-none block w-full bg-white-200 text-white-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-white-500"
           />
         </div>
@@ -152,6 +155,7 @@
             matInput
             type="number"
             [(ngModel)]="mark"
+            [class.opacity-50]="canEdit" [class.cursor-not-allowed]="canEdit"
             class="appearance-none block w-full bg-white-200 text-white-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-white-500"
           />
         </div>
@@ -169,6 +173,7 @@
             name="description"
             rows="5"
             [(ngModel)]="remarq"
+            [class.opacity-50]="canEdit" [class.cursor-not-allowed]="canEdit"
             class="shadow-sm shadow-md focus:ring-indigo-500 bg-white-200 focus:border-indigo-500 rounded-lg block w-full sm:text-sm border text-gray-700 border-white-300 p-2.5"
           >
               </textarea
@@ -179,13 +184,16 @@
         <button
           [disabled]="canEdit"
           class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          [class.opacity-50]="canEdit" [class.cursor-not-allowed]="canEdit"
         >
           <fa-icon [icon]="faEdit"></fa-icon>
           Save
         </button>
         <button
           (click)="onReturn()"
+          [disabled]="canEdit"
           class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+          [class.opacity-50]="canEdit" [class.cursor-not-allowed]="canEdit"
         >
           <fa-icon [icon]="faSend"></fa-icon>
           Rendre

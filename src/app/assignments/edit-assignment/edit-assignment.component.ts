@@ -5,14 +5,14 @@ import { Assignment } from '../../shared/interface/assignment.interface';
 import { faCoffee, faDeleteLeft, faEdit, faSchool, faShip } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '../../shared/service/auth.service';
 import { AssignmentService } from '../../shared/service/assignment.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-assignment',
   standalone: true,
-  imports: [FontAwesomeModule, SweetAlert2Module, FormsModule],
+  imports: [FontAwesomeModule, SweetAlert2Module, FormsModule, RouterModule],
   templateUrl: './edit-assignment.component.html',
   styleUrl: './edit-assignment.component.css'
 })
@@ -23,45 +23,48 @@ export class EditAssignmentComponent {
   faEdit = faEdit;
   faSend = faSchool;
   canEdit = true;
-  isAdmin!: boolean ;
+  isAdmin!: boolean;
 
   mark!: number;
   remarq!: string;
 
   constructor(
-    private authentificationService : AuthService,
-    private assignmentService:  AssignmentService,
-    private route : ActivatedRoute,
-    private router : Router
+    private authentificationService: AuthService,
+    private assignmentService: AssignmentService,
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
-  
+
   ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap;
     const assignmentId = routeParams.get('assignment_id') as string;
 
-    this.assignmentService.getAssignmentById(assignmentId).subscribe(assignment => {  
-      this.assignment = assignment; 
+    this.assignmentService.getAssignmentById(assignmentId).subscribe(assignment => {
+      this.assignment = assignment;
       this.mark = this.assignment.note;
       this.remarq = this.assignment.remarque;
     });
-    this.authentificationService.isAdmin().then(role => { this.isAdmin = role ; })
 
-    this.canEdit = this.isAdmin && !this.assignment?.rendu;
+    this.authentificationService.isAdmin().then(role => {
+      this.isAdmin = role;
+      this.canEdit = this.isAdmin && !this.assignment?.rendu;
+    })
+
   }
 
-  onDelete(){
+  onDelete() {
     this.assignmentService.deleteAssignment(this.assignment)
-    .subscribe( 
-       message => {
-        Swal.fire('Success', `Assignment ${this.assignment._id} is deleted`, 'success');
-        this.router.navigate(['/assignment/list']);
-       }
-    )
+      .subscribe(
+        message => {
+          Swal.fire('Success', `Assignment ${this.assignment._id} is deleted`, 'success');
+          this.router.navigate(['/assignment/list']);
+        }
+      )
   }
 
   onReturn() {
     console.log(this.mark);
-    if(!this.mark) Swal.fire('Error', `Please fill in the note first`, 'error');
+    if (!this.mark) Swal.fire('Error', `Please fill in the note first`, 'error');
     else {
       this.assignment.note = this.mark;
       this.assignment.remarque = this.remarq;
@@ -70,7 +73,7 @@ export class EditAssignmentComponent {
 
       console.log(this.assignment);
 
-      this.assignmentService.returnAssignment(this.assignment).subscribe( 
+      this.assignmentService.returnAssignment(this.assignment).subscribe(
         message => {
           Swal.fire('Success', `Assignment ${this.assignment._id} is updated`, 'success');
           this.router.navigate(['/assignment/list']);

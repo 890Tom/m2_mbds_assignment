@@ -14,8 +14,8 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-details-assignment',
   standalone: true,
   imports: [
-    FontAwesomeModule, 
-    SweetAlert2Module, 
+    FontAwesomeModule,
+    SweetAlert2Module,
     RouterModule,
     FormsModule],
   templateUrl: './details-assignment.component.html',
@@ -41,9 +41,11 @@ export class DetailsAssignmentComponent implements OnInit {
     const assignmentId = routeParams.get('assignment_id') as string;
 
     this.assignmentService.getAssignmentById(assignmentId).subscribe(assignment => { this.assignment = assignment; });
-    this.authentificationService.isAdmin().then(role => { this.isAdmin = role; })
+    this.authentificationService.isAdmin().then(role => {
+      this.isAdmin = role;
+      this.canEdit = this.isAdmin && !this.assignment?.rendu;
+    })
 
-    this.canEdit = this.isAdmin && !this.assignment?.rendu;
   }
 
   onDelete(assignment: Assignment) {
