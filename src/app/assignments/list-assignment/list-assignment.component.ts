@@ -80,11 +80,13 @@ export class ListAssignmentComponent implements OnInit {
   drop(event: CdkDragDrop<Assignment[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      console.log("Drop");
       console.log(event.container.data);
 
     } else {
       const assignment = event.previousContainer.data[event.previousIndex];
 
+      console.log("don't drop")
       console.log(assignment);
 
       /* this.openDialog(assignment, () => {
