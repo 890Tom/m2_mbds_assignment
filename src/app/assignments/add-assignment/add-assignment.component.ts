@@ -73,7 +73,9 @@ export class AddAssignmentComponent implements OnInit {
   hasPrevPageMatiere!: boolean;
 
   firstFormGroup = this._formBuilder.group({
-    firstCtrl: ['', Validators.required],
+    nomAssignment: ['', Validators.required],
+    dateDeRendu: ['', Validators.required],
+    remarque: ['']
   });
   secondFormGroup = this._formBuilder.group({
     secondCtrl: ['', Validators.required],
@@ -198,7 +200,6 @@ export class AddAssignmentComponent implements OnInit {
     this.assignment.dateRendu = this.dateDeRendu;
     this.assignment.remarque = this.remarque;
     this.assignment.rendu = false;
-    console.log(this.assignment)
   }
 
 
@@ -208,7 +209,6 @@ export class AddAssignmentComponent implements OnInit {
     this.assignment.etudiant.nom = etudiant.nom;
     this.assignment.etudiant.email = etudiant.email;
     this.assignment.etudiant.avatar = etudiant.avatar;
-    console.log(this.assignment)
   }
 
   setSelectedMatiere(matiere: Matiere) {
@@ -224,15 +224,17 @@ export class AddAssignmentComponent implements OnInit {
     this.assignment.matiere.professeur.avatar = matiere.professeur.avatar;
 
     this.assignment.matiere.image = matiere.image;
-    console.log(this.assignment)
   }
 
   confirmation() {
     this.assignmentService.addAssignment(this.assignment)
       .subscribe(
-        message => {
-          Swal.fire('Success', `Assignment ${this.assignment.nom} is added`, 'success');
-          this.router.navigate(['/assignment/list']);
+        (success) => {
+            Swal.fire('Success', `Assignment ${this.assignment.nom} is added`, 'success');
+            this.router.navigate(['/assignment/list']);
+        },
+        (error) => {
+          Swal.fire('Error', `Assignment ${this.assignment.nom} is not added. Verify the format.`, 'error');
         }
       )
   }
