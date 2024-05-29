@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ReturnAssignmentComponent } from '../return-assignment/return-assignment.component';
 
 @Component({
   selector: 'app-list-assignment',
@@ -89,14 +90,24 @@ export class ListAssignmentComponent implements OnInit {
       console.log("don't drop")
       console.log(assignment);
 
-      /* this.openDialog(assignment, () => {
-        transferArrayItem(
-          event.previousContainer.data,
-          event.container.data,
-          event.previousIndex,
-          event.currentIndex
-        );
-      }); */
+      const dialogRef = this.dialog.open(ReturnAssignmentComponent, {
+        data: assignment,
+        height: '700px',
+        width: '600px',
+      });
+
+      
+      dialogRef.afterClosed().subscribe(result=>{
+        if(result && result.success){
+          transferArrayItem(
+            event.previousContainer.data,
+            event.container.data,
+            event.previousIndex,
+            event.currentIndex
+          );
+        }
+        
+      })
     }
   }
 
