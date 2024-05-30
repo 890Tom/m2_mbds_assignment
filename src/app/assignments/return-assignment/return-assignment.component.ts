@@ -44,6 +44,11 @@ export class ReturnAssignmentComponent {
 
   rendreAssignment(){
     
+    if (!this.note) {
+      Swal.fire('Error', `Please fill in the note first`, 'error');
+      return;
+    }
+
     this.data.note = this.note;
     this.data.remarque = this.remarque;
 
