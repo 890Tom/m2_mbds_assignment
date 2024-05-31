@@ -1,8 +1,11 @@
 # M2MbdsAssignment
+
+## Contributeurs
 - 55: ROBSONA Tsiory Andriantsoa
 - 58: ZAFITSIARENDRIKA Tommy
 
 ## Build and run
+- git clone 
 - npm install
 - ng build
 - node server.js
@@ -10,6 +13,10 @@
 ## Lien
 - Front : https://m2-mbds-assignment.onrender.com/
 - Back/API : https://m2-mbds-api-assignment.onrender.com/api/assignments
+
+## Lien Git
+- Front : https://github.com/890Tom/m2_mbds_assignment
+- Back/API : https://github.com/Lacoste27/m2_mbds_api_assignment
 
 ## Fonctionnalites
 - Authentification avec JWT (JSON WEB TOKEN)
