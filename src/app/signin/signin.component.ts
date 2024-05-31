@@ -15,8 +15,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 })
 export class SigninComponent {
   // Champs des formulaires d'authentification
-  email: string = 'cooleyjames@example.org'
-  password: string = 'Tn_rnb!='
+  email: string = 'cprofesseur@itu-mbds.com'
+  password: string = 'professeurPass'
 
   constructor(
     private router: Router,
