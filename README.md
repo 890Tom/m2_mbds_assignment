@@ -149,3 +149,16 @@ ng serve
 2. Etudiant 
     - Email : etudiant@eitu-mbds.com
     - Password : `etudiantPass`
+
+## Contraintes
+
+- [x] 1000 assignments minimum dans la base dans la base
+- [x] Rendre sur github le projet
+- [x] Déployer dans render
+- [x] Authentification JWT
+- [x] Ajout des nouvelles proproité (note, remarque, ...)
+- [x] Amélioration de l'affichage de l'assignment
+- [x] Affichage de la liste dans deux onglets séparé
+- [x] Formulaire de type Stepper
+- [x] Ajout de message de notification
+- [x] Drag and drop
