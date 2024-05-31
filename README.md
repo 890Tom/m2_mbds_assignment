@@ -1,5 +1,6 @@
 # M2 Assignment App
 
+![Angular](https://img.shields.io/badge/angular-%23DD0031.svg?style=for-the-badge&logo=angular&logoColor=white)
 # Contributeurs
 - 55: ROBSONA Tsiory Andriantsoa
 - 58: ZAFITSIARENDRIKA Tommy
@@ -155,6 +156,7 @@ ng serve
 - [x] 1000 assignments minimum dans la base dans la base
 - [x] Rendre sur github le projet
 - [x] Déployer dans render
+- [x] Ajout toolbar et sidebar
 - [x] Authentification JWT
 - [x] Ajout des nouvelles proproité (note, remarque, ...)
 - [x] Amélioration de l'affichage de l'assignment
